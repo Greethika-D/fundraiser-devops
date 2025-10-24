@@ -1,47 +1,37 @@
 pipeline {
     agent any
-
-    environment {
-        // You can define environment variables here if needed
-        DOCKER_COMPOSE_FILE = 'docker-compose.yml'
-    }
-
     stages {
         stage('Checkout SCM') {
             steps {
-                git branch: 'main',
-                    url: 'https://github.com/Greethika-D/fundraiser-devops.git'
+                checkout scm
             }
         }
-
         stage('Build Docker Image') {
             steps {
                 script {
-                    // Build the Docker image
-                    bat 'docker build -t fundraiser-app .'
+                    bat "docker build -t fundraiser-app ."
                 }
             }
         }
-
         stage('Deploy with Docker Compose') {
             steps {
                 script {
-                    // Stop and remove existing containers & networks
-                    bat "docker-compose down -v --remove-orphans"
+                    // Stop and remove any existing containers with these names
+                    bat "docker rm -f fundraiser_backend || echo 'No old backend container'"
+                    bat "docker rm -f mongo_db || echo 'No old mongo container'"
                     
-                    // Build and start containers
+                    // Remove unused volumes (optional)
+                    bat "docker volume prune -f"
+                    
+                    // Build and deploy fresh
                     bat "docker-compose up -d --build"
                 }
             }
         }
     }
-
     post {
-        success {
-            echo 'Pipeline finished successfully!'
-        }
         failure {
-            echo 'Pipeline failed. Check logs for errors.'
+            echo "Pipeline failed. Check logs for errors."
         }
     }
 }
