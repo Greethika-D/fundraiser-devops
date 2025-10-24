@@ -1,8 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
-const port = 3019
-;
+const port = process.env.PORT || 3019;
 
 const app = express();
 app.use(express.static(__dirname));
@@ -166,6 +165,6 @@ app.get('/funds', (req, res) => {
     res.sendFile(path.join(__dirname, 'funds.html'));
 });
 
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
     console.log(`Server started on port ${port}`);
 });
