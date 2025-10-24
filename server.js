@@ -9,10 +9,10 @@ app.use(express.static(__dirname));
 app.use(express.urlencoded({ extended: true }));
 
 
-mongoose.connect('mongodb://127.0.0.1:27017/students', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
+mongoose.connect("mongodb://mongo:27017/fundraiserDB")
+  .then(() => console.log("Connected to MongoDB successfully"))
+  .catch(err => console.error("MongoDB connection error:", err));
+
 const db = mongoose.connection;
 db.once('open', () => {
     console.log("MongoDB connection successful");
