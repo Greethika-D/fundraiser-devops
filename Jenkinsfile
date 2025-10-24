@@ -11,7 +11,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh 'docker build -t fundraiser-app .'
+                    bat 'docker build -t fundraiser-app .'
                 }
             }
         }
@@ -19,8 +19,8 @@ pipeline {
         stage('Deploy with Docker Compose') {
             steps {
                 script {
-                    sh 'docker-compose down'
-                    sh 'docker-compose up -d --build'
+                    bat 'docker-compose down'
+                    bat 'docker-compose up -d --build'
                 }
             }
         }
