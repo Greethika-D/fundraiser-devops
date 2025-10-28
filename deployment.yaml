@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fundraiser-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fundraiser
+  template:
+    metadata:
+      labels:
+        app: fundraiser
+    spec:
+      containers:
+      - name: fundraiser-app
+        image: fundraiseracr123.azurecr.io/fundraiserapp:v7
+        ports:
+        - containerPort: 3019
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fundraiser-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: fundraiser
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3019
