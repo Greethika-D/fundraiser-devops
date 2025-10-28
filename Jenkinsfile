@@ -36,16 +36,19 @@ pipeline {
         }
 
         stage('Build Docker Image') {
-            steps {
-                dir("${APP_DIR}") {
-                    script {
-                        echo 'Building Docker image...'
-                        bat 'docker build -t fundraiser-app:%BUILD_NUMBER% -f Dockerfile .'
-
-                    }
-                }
+    steps {
+        dir('mongodb2') {
+            script {
+                echo '🚀 Building Docker image...'
+                bat '''
+                    echo Current directory is: %cd%
+                    docker build -t fundraiser-app:%BUILD_NUMBER% -f "%cd%\\Dockerfile" "%cd%"
+                '''
             }
         }
+    }
+}
+
 
         stage('Deploy with Docker Compose') {
             steps {
