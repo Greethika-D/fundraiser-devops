@@ -40,7 +40,8 @@ pipeline {
                 dir("${APP_DIR}") {
                     script {
                         echo 'Building Docker image...'
-                        bat 'docker build -t fundraiser-app:%BUILD_NUMBER% .'
+                        bat 'docker build -t fundraiser-app:%BUILD_NUMBER% -f C:/Users/greet/OneDrive/projects/mongodb2/Dockerfile .'
+
                     }
                 }
             }
