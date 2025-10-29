@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
       - name: fundraiser-app
-        image: fundraiseracr123.azurecr.io/fundraiserapp:v7
+        image: fundraiseracrnew.azurecr.io/fundraiserapp:v7
+
         ports:
         - containerPort: 3019
 ---
